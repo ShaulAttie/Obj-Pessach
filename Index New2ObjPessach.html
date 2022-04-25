@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Cart</title>
+
+    <link rel="stylesheet" href="Styles New2ObjPessach.css">
+
+    <style>
+
+    </style>
+
+</head>
+
+
+
+<body>
+
+    <!-- PRODUCT SECTION -->
+    <div id="shopping">
+        <div>
+            <h1>Stock Update</h1>
+        </div>
+        <div id="shopSection">
+            <form id="frm1">
+                <label for="name">Name:</label><Input id="name" name="NPName" value="Name..."></Input>
+                <label for="barcode">Barcode:</label><Input id="barcode" name="NPBarcode"
+                    value="Barcode..."></Input><br>
+                <label for="price">Price:</label><Input id="price" name="NPPrice" value="Price..."></Input>
+                <label for="qty">Quantity:</label><Input id="qty" name="NPQty" value="Qty..."></Input><br>
+                <button type="submit" onclick="" class="button">Add New Product</button>
+            </form>
+
+            <form id="frm2">
+                <label for="barcode1">Barcode:</label><Input id="barcode1" value="Barcode..."></Input><br>
+                <label for="qty1">Quantity:</label><Input id="qty1" value="Qty..."></Input><br>
+                <button id="addQtyButt" onclick="" class="button">Add Stock to Product</button><br>
+            </form>
+
+            <form id="frm3">
+                <label for="barcode2">Barcode:</label><Input id="barcode2" value="Barcode..."></Input><br>
+                <label for="Qty2">Quantity:</label><Input id="qty2" value="Qty..."></Input><br>
+                <button id="minusQtyButt" onclick="" class="button">Minus Stock to Product</button>
+            </form>
+
+            <div id="shop01">
+                <h1>Our Products</h1>
+                <ul id="shop-list" class="show">
+
+                </ul>
+            </div>
+            <div id="alertList">
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- CART SECTION -->
+
+    <div id="cartSection">
+
+        <div id="cart01">
+            <ul>
+                <h1>Your Cart</h1>
+                <span id="cart-qty" class="cart-qty"></span>
+            </ul>
+        </div>
+
+
+        <div>
+            <ul id="product-list">
+
+            </ul>
+        </div>
+
+        <div>
+            <ul>
+                <span id="cart-total" class="cart-total"></span>
+            </ul>
+        </div>
+
+
+    </div>
+
+    <script src="New2ObjPessach.js"></script>
+</body>
+
+</html>
