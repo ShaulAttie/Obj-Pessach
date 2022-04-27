@@ -5,17 +5,20 @@ let mlay = [],
     addForm1 = document.getElementById('frm1'),              //form Id on .html
     addForm2 = document.getElementById('frm2'),              //form Id on .html
     addForm3 = document.getElementById('frm3'),              //form Id on .html
+    addForm4 = document.getElementById('frm4'),              //form Id on .html
     InBuy = document.getElementById('inputBuy'),             // Input on form to where user can write how many products to buy
     alert = document.getElementById('alertH1'),              // h1 id in case of any alert to user
     shopList = document.getElementById("shop-list"),         // ul id where the Shop List goes
-    alertListDiv = document.getElementById('alertList');
+    alertListDiv = document.getElementById('alertList'),
+    oldPrice = document.getElementsByClassName('oldPrice');
+
 
 // Creating the HTML
-let prodList = document.getElementById('product-list')         //ul Id on .html where the cart list goes
+let prodList = document.getElementById('product-list')       //ul Id on .html where the cart list goes
 
 // Shop Mlay
 // createItem (Product Name, Barcode, Price, Quantity of product in stock)
-createItem('Milk', 1001, 5.5, 10)
+createItem('Milk', 1001, 5.5, 1)
 createItem('Bread', 1002, 8, 20)
 createItem('Pasta', 1003, 5, 30)
 createItem('Cotadg', 1004, 6, 40)
@@ -23,19 +26,28 @@ createItem('Ice-Cream', 1005, 20, 50)
 
 // Handle Clicks on Shop List
 shopList.onclick = function (e) {           // Option to click on ShopList Items to send to Your card
-    if (e.target && e.target.id.includes("shopList_li")) {
-        let barcode = e.target.className
+    if (e.target && e.target.className.includes("shopList_li")) {
+        let barcode = e.target.id
         let result = {}
-        for (i = 0; i < cart.length; i++) {
-            if (cart[i].barcode == barcode) {
+
+        for (i of cart) {
+            if (i.barcode == barcode) {
                 addQty(barcode)
                 showItems()
                 return
             }
         }
-        mlay.map(v => v.barcode == barcode && v.qty >= 1 ? (v.qty--, v.amount++) : null)
-        mlay.find(v => v.barcode == barcode ? result = v : null)
+        mlay.find(v => v.barcode == barcode && v.qty >= 0 ? (v.qty--, v.amount++, result = v) : null) //map
         cart.push(result)
+        showItems()
+    }
+}
+//Handle double click on Shop list that wil delete the product from the cart list
+shopList.ondblclick = function (e) {
+    if (e.target && e.target.className.includes("shopList_li")) {
+        let barcode = e.target.id
+        removeItem(barcode)
+        clearAlert(barcode)
         showItems()
     }
 }
@@ -50,28 +62,17 @@ function clearCartList() {
 
 //Clear the Shop list before printing an update
 function clearShopList() {
-    let lis = document.querySelectorAll('#shopList_li');
+    let lis = document.querySelectorAll('.shopList_li');
     for (i = 0; li = lis[i]; i++) {
         li.parentNode.removeChild(li);
     }
 }
 
 // Clear a specific Out of Stock Alert 
-function clearAlert(barcode) {
-    if (document.getElementById("barcode").value != 'Barcode...') {
-        barcode = document.getElementById("barcode").value
-    }
-    if (document.getElementById("barcode1").value != "Barcode...") {
-        barcode = document.getElementById("barcode1").value
-    }
-    if (document.getElementById("barcode2").value != "Barcode...") {
-        barcode = document.getElementById("barcode2").value
-    }
+function clearAlert() {
     let h1s = document.querySelectorAll('#alertH1');
     for (i = 0; h1 = h1s[i]; i++) {
-        if (h1.className == barcode) {
-            h1.parentNode.removeChild(h1);
-        }
+        h1.parentNode.removeChild(h1);
     }
 }
 
@@ -98,7 +99,7 @@ prodList.onclick = function (e) {
         let barcode = e.target.className
         let InBuy = Number(document.getElementById('inputBuy' + barcode).value)
         mlay.find(v => v.barcode == barcode && InBuy > v.qty ? InBuy = v.qty : null)
-        removeQty(barcode, InBuy)
+        addQty(barcode, InBuy)
         showItems()
     }
 }
@@ -111,7 +112,11 @@ addForm1.onsubmit = function (e) {
     let barcodeX = document.getElementById("barcode").value;
     let priceX = Number(document.getElementById("price").value);
     let qtyX = Number(document.getElementById("qty").value);
-
+    if (priceX < 0 || qtyX < 0) {
+        createAlertListDiv(`The Values for Price or Quantities can not be Negative`)
+        setTimeout(clearAlert, 2000)
+        return
+    }
     createItem(nameX, barcodeX, priceX, qtyX)
 }
 
@@ -120,7 +125,11 @@ addForm2.onsubmit = function (e) {
     e.preventDefault()
     let barcode1X = document.getElementById("barcode1").value;
     let qty1X = Number(document.getElementById("qty1").value);
-
+    if (qty1X < 0) {
+        createAlertListDiv(`The Value for Quantity can not be Negative`)
+        setTimeout(clearAlert, 2000)
+        return
+    }
     addStock(barcode1X, qty1X)
 }
 
@@ -128,8 +137,24 @@ addForm3.onsubmit = function (e) {
     e.preventDefault()
     let barcode2X = document.getElementById("barcode2").value;
     let qty2X = Number(document.getElementById("qty2").value);
-
+    if (qty2X < 0) {
+        createAlertListDiv(`The Value for Quantity can not be Negative`)
+        setTimeout(clearAlert, 2000)
+        return
+    }
     removeStock(barcode2X, qty2X)
+}
+
+addForm4.onsubmit = function (e) {
+    e.preventDefault()
+    let barcode3X = document.getElementById("barcode3").value;
+    let price3X = Number(document.getElementById("price3").value);
+    if (price3X < 0) {
+        createAlertListDiv(`The Price can not be Negative`)
+        setTimeout(clearAlert, 2000)
+        return
+    }
+    changePrice(barcode3X, price3X)
 }
 
 // Create a Item to be added to mlay[] -----------------------------
@@ -146,7 +171,8 @@ function createItem(name, barcode, price, qty, amount = 0) {
 function addNewItem(prod) {
     mlay.every(v => v.barcode != prod.barcode)
         ? (mlay.push(prod), createShopList(prod))
-        : (createAlertListDiv(`Barcore alredy in the system!!!`, prod.barcode), setTimeout(clearAlert, 5000)) // In case of the product already exist in the system
+        : (createAlertListDiv(`Barcore alredy in the system!!!`, prod.barcode), setTimeout(clearAlert, 5000))
+    // In case of the product already exist in the system
 }
 
 // Get Quantity of products on card ---------------------
@@ -167,16 +193,25 @@ function getTotal() {
 function removeItem(barcode) {
     let result01 = []
     cart.map(v => v.barcode != barcode ? result01.push(v) : null)
+    mlay.find(v => v.barcode == barcode ? (v.qty += v.amount, v.amount = 0) : null)
+    document.getElementById(barcode).removeAttribute('type')
     cart = result01
 }
 
 // Add Cart Prod Quantity to a product by barcode
 // if clicked at shop list or + button will add only 1. if Input is used will add the number in the box
 function addQty(barcode, qty = 1) {
-    let item = getItemById(barcode)
-    item != undefined && item.qty != 0 ? item.amount += qty : null;
-    mlay.find(v => v.barcode == barcode && v.qty <= 0 ? createAlertListDiv(`There is not enought ${item.name} in stock`, barcode) : null)
-    mlay.find(v => v.barcode == barcode && v.qty >= qty ? (v.qty -= qty) : null)
+    cart.find(v => v.barcode == barcode && v.qty > 0 ? (v.qty -= qty, v.amount += qty) : null);
+    mlay.find(v => v.barcode == barcode && v.qty == 0 ? (createAlertListDiv(`Those are all the  ${v.name} we have in stock`, barcode),
+        setTimeout(clearAlert, 2000),
+        document.getElementById(barcode).type = 'red') : null)
+}
+
+// Take out Quantity from a product by Barcode
+function minusQty(barcode, qty = 1) {
+    cart.find(v => v.barcode == barcode ? (v.amount -= qty, v.qty += qty) : null)
+    cart.find(v => v.barcode == barcode && v.amount == 0 ? removeItem(barcode) : null)
+    document.getElementById(barcode).removeAttribute('type')
 }
 
 // Add a Product Quantity to stock
@@ -192,6 +227,7 @@ function addStock(barcode1X, qty1X) {
     (createAlertListDiv(`This Barcode doesn't exist in the system!!!`, barcode1X), setTimeout(clearAlert, 5000))
 }
 
+// Remove a Product Quantity to stock
 function removeStock(barcode2X, qty2X) {
     for (i in mlay) {
         if (mlay[i].barcode == barcode2X && mlay[i].qty >= qty2X) {
@@ -208,44 +244,26 @@ function removeStock(barcode2X, qty2X) {
     (createAlertListDiv(`This Barcode doesn't exist in the system!!!`, barcode2X), setTimeout(clearAlert, 5000))
 }
 
-// Take out Quantity from a product by Barcode
-function minusQty(barcode, qty = 1) {
-    let item = getItemById(barcode)
-    item != undefined ? item.amount-- | item.qty++ : null;
-    if (item.amount == 0) {
-        removeItem(barcode)
-    }
-}
-
-//Remove Quantity from Item -----------------
-function removeQty(barcode, qty = 1) {
-    if (!getItemById(barcode)) {
-        return alert.innerHTML = `There is no product with this Barcode`
-    }
-    addQty(barcode, qty)
-}
-
-// Function thats find a specific product by barcode
-function getItemById(barcode) {
-    return mlay.find(v => v.barcode == barcode)
-}
-
 //showItems(mlay) ------------------------
 function showItems() {
+    debugger
     clearCartList()
     createNewListProd(cart)
+    // createShopListMlay(mlay)
     cartQty.innerHTML = `You have in your card ${getAmount()} items.`
-    cartTotal.innerHTML = `On Total of $${getTotal()}`
+    cartTotal.innerHTML = `On Total of $${getTotal()}.`
 }
 
 //Creating a Shopping list per product
 function createShopList(prod) {
     let elemLi = document.createElement("li")
-    elemLi.id = ("shopList_li")
-    elemLi.className = (prod.barcode)                   // class name will be = to prod barcode
+    elemLi.id = (prod.barcode)
+    elemLi.className = ("shopList_li")                   // class name will be = to prod barcode
     elemLi.innerHTML =
         (`${prod.name} Price: $${prod.price}`)          // add a inner text with cards game
-    // elemLi.addEventListener('click', showAlert)      //Testing to add a click event to an element
+    if (prod.qty == 0) {
+        elemLi.setAttribute("type", 'red')
+    }
     shopList.appendChild(elemLi)                        //Linking elem Li from shopping list to ul shopList
 
     let elemSpan = document.createElement('span')
@@ -258,11 +276,13 @@ function createShopList(prod) {
 function createShopListMlay(mlay) {
     for (i in mlay) {
         let elemLi = document.createElement("li")
-        elemLi.id = ("shopList_li")
-        elemLi.className = (mlay[i].barcode)                // class name will be = to prod barcode
+        elemLi.id = (mlay[i].barcode)
+        elemLi.className = ("shopList_li")                // class name will be = to prod barcode
         elemLi.innerHTML =
             (`${mlay[i].name} Price: $${mlay[i].price}`)    // add a inner text with cards game
-        // elemLi.addEventListener('click', showAlert)      //Testing to add a click event to an element
+        if (mlay[i].qty == 0) {
+            elemLi.setAttribute("type", 'red')
+        }
         shopList.appendChild(elemLi)                        //Linking elem Li from shopping list to ul shopList
 
         let elemSpan = document.createElement('span')
@@ -280,7 +300,6 @@ function createNewListProd(cart) {
         elemLi.className = ("li" + cart[i].barcode)
         elemLi.innerHTML =
             (`${cart[i].name} Price: $${cart[i].price} Qty: ${cart[i].amount} = ${cart[i].price * cart[i].amount}`)
-        // add a inner text with cards game
         prodList.appendChild(elemLi)
 
         let elemButRemove = document.createElement('button')
@@ -303,8 +322,8 @@ function createNewListProd(cart) {
         elemLi.appendChild(elemButMinus)
 
         let inputBuyQty = document.createElement('input');
-        inputBuyQty.id = ('inputBuy');
-        inputBuyQty.className = (cart[i].barcode);
+        inputBuyQty.id = ('inputBuy' + cart[i].barcode);
+        inputBuyQty.className = ('inputBuy');
         inputBuyQty.type = "Number";
         inputBuyQty.step = 1;
         inputBuyQty.min = 0;
@@ -314,7 +333,7 @@ function createNewListProd(cart) {
         let elemBut = document.createElement('button')
         elemBut.id = ("prodList_butt_add")
         elemBut.className = (cart[i].barcode)
-        elemBut.innerText = ("Add to Cart")
+        elemBut.innerText = ("Add")
         elemLi.appendChild(elemBut)
     }
 }
@@ -327,7 +346,8 @@ function createAlertListDiv(text, barcode) {
     alertListDiv.appendChild(elemH1)
 }
 
-// //Function test for element event on createShopList(prod)
-// function showAlert() {
-//     console.log('click!!!')
-// }
+function changePrice(barcode, price) {
+    mlay.find(v => v.barcode == barcode ? v.price = price : null)
+    clearShopList()
+    createShopListMlay(mlay)
+}

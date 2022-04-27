@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Shop Cart</title>
 
     <link rel="stylesheet" href="Styles New2ObjPessach.css">
@@ -26,35 +27,44 @@
         </div>
         <div id="shopSection">
             <form id="frm1">
-                <label for="name">Name:</label><Input id="name" name="NPName" value="Name..."></Input>
-                <label for="barcode">Barcode:</label><Input id="barcode" name="NPBarcode"
-                    value="Barcode..."></Input><br>
-                <label for="price">Price:</label><Input id="price" name="NPPrice" value="Price..."></Input>
-                <label for="qty">Quantity:</label><Input id="qty" name="NPQty" value="Qty..."></Input><br>
-                <button type="submit" onclick="" class="button">Add New Product</button>
+                <label for="name">Name:</label><Input id="name" name="NPName"  placeholder="Name..."></Input>
+                <label for="barcode">Barcode:</label><Input id="barcode" name="NPBarcode" placeholder="Barcode..."
+                    min="0"></Input>
+                <label for="price">Price:</label><Input id="price" name="NPPrice" placeholder="Price..." min="0"></Input>
+                <label for="qty">Quantity:</label><Input id="qty" name="NPQty" placeholder="Qty..." min="0"></Input>
+                <button id="addProd" onclick="" class="button">Add New Product</button>
+                <input type="reset" value="Reset">
             </form>
 
             <form id="frm2">
-                <label for="barcode1">Barcode:</label><Input id="barcode1" value="Barcode..."></Input><br>
-                <label for="qty1">Quantity:</label><Input id="qty1" value="Qty..."></Input><br>
-                <button id="addQtyButt" onclick="" class="button">Add Stock to Product</button><br>
+                <label for="barcode1">Barcode:</label><Input id="barcode1" placeholder="Barcode..." min="0"></Input>
+                <label for="qty1">Quantity:</label><Input id="qty1" placeholder="Qty..." min="0"></Input>
+                <button id="addQtyButt" onclick="" class="button">Add Stock to Product</button>
+                <input type="reset" value="Reset">
             </form>
 
             <form id="frm3">
-                <label for="barcode2">Barcode:</label><Input id="barcode2" value="Barcode..."></Input><br>
-                <label for="Qty2">Quantity:</label><Input id="qty2" value="Qty..."></Input><br>
+                <label for="barcode2">Barcode:</label><Input id="barcode2" placeholder="Barcode..." min="0"></Input>
+                <label for="Qty2">Quantity:</label><Input id="qty2" placeholder="Qty..." min="0"></Input>
                 <button id="minusQtyButt" onclick="" class="button">Minus Stock to Product</button>
+                <input type="reset" value="Reset">
+            </form>
+
+            <form id="frm4">
+                <label for="barcode3">Barcode:</label><Input id="barcode3" placeholder="Barcode..." min="0"></Input>
+                <!-- <label for="barcode3">Old Price</label><span name="oldPrice">0</span> -->
+                <label for="price3">Price:</label><Input id="price3" name="NPPrice" placeholder="Price..." min="0"></Input>
+                <button id="updatePriceButt" onclick="" class="button">Update Price</button>
+                <input type="reset" value="Reset">
             </form>
 
             <div id="shop01">
                 <h1>Our Products</h1>
-                <ul id="shop-list" class="show">
+                <ul list style id="shop-list" class="show">
 
                 </ul>
             </div>
-            <div id="alertList">
 
-            </div>
         </div>
     </div>
 
@@ -66,10 +76,9 @@
         <div id="cart01">
             <ul>
                 <h1>Your Cart</h1>
-                <span id="cart-qty" class="cart-qty"></span>
+                <h4 id="cart-qty">You have in your card 0 items.</h4>
             </ul>
         </div>
-
 
         <div>
             <ul id="product-list">
@@ -79,10 +88,12 @@
 
         <div>
             <ul>
-                <span id="cart-total" class="cart-total"></span>
+                <h4 id="cart-total">On Total of $0,00.</h4>
             </ul>
         </div>
 
+        <div id="alertList">
+        </div>
 
     </div>
 

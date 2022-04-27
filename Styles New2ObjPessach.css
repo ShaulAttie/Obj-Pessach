@@ -1,136 +1,174 @@
 /* #ID .CLASSNAME TAG */
+html {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+* {
+    box-sizing: border-box;
+}
 
 body {
-    display: flex;
-    align-items: center;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
     justify-content: center;
-    width: 95%;
+    height: 656px;
 }
 
 #shopping {
+    display: grid;
     flex: 50%;
     border-right-style: double;
     border-right-color: black;
+    justify-content: center;
 }
 
 #cartSection {
     flex: 50%;
-
 }
-
-/* #cart01{
-    position: relative;
-    top: 0px;
-} */
 
 h1 {
     display: flex;
     justify-content: center;
 }
 
-#frm1,
+/* forms */
+#frm1 {
+    display: grid;
+    grid-template-columns: 80px 80px 80px 80px;
+    grid-template-rows: repeat(3, 32px);
+    width: 560px;
+    justify-content: center;
+    gap: 8px;
+    margin: 8px;
+}
+
 #frm2,
-#frm3 {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-left: 15%;
-    width: 450px;
-    row-gap: 15px;
-    column-gap: 1em;
+#frm3,
+#frm4 {
+    display: grid;
+    grid-template-columns: 80px 80px 80px 80px;
+    grid-template-rows: repeat(2, 32px);
+    width: 560px;
+    justify-content: center;
+    gap: 8px;
+    margin: 8px;
 }
 
-#product-list {
-    display: block;
-    border-width: 2px;
-    border-color: black;
+#updatePriceButt,
+#minusQtyButt,
+#addQtyButt,
+#addProd {
+    margin-left: 8px;
 }
 
+/* #frm4 {
+    display: grid;
+    grid-template-columns: 80px 80px 80px 80px 80px 80px;
+    grid-template-rows: repeat(2, 32px);
+    width: 560px;
+    justify-content: center;
+    gap: 8px;
+    margin: 8px;
+} */
+
+/* reset button from frm1/2/3/4 */
+input[type='reset'] {
+    width: 80px;
+    height: 24px;
+    margin-left: 88px;
+}
+
+/* input[type='reset01'] {
+    width: 80px;
+    height: 24px;
+    margin-left: 11rem;
+} */
+
+/* #updatePriceButt {
+    margin-left: 96px;
+} */
+
+/* button from frm1/2/3/4 */
 .button {
-    width: 175px;
-    margin-left: 30%;
+    width: 160px;
+    height: 24px;
+    margin-left: 88px;
+}
 
+#shop-list {
+    display: grid;
+    grid-template-columns: repeat(3, 160px);
+    grid-template-rows: repeat(6, 32px);
+    grid-auto-flow: column;
+    height: 192px;
+    justify-content: center;
+    column-gap: 16px;
+    cursor: pointer;
 }
 
 /* Adding some colors to Cart List */
 #prodList_li {
+    display: grid;
+    grid-template-columns: 288px 80px 24px 24px 48px 48px;
+    gap: 8px;
     background-color: rgb(232, 233, 233);
-    margin-left: 30px;
-    padding: 5px;
+    margin-left: 32px;
+    margin-right: 32px;
+    height: 32px;
+    padding: 4px;
 }
 
-/* Positioning all elements inside li DOWN*/
-#prodList_butt_add {
-    position: absolute;
-    right: 5%;
-    margin-left: 10px;
-    margin-block-end: 0%;
-    align-items: flex-end;
-}
-
-#inputBuy {
-    position: absolute;
-    right: 12%;
-}
-
-#prodList_butt_minus {
-    position: absolute;
-    right: 19%;
-}
-
-#prodList_butt_plus {
-    position: absolute;
-    right: 21%;
-}
-
+#prodList_butt_add,
+.inputBuy,
+#prodList_butt_minus,
+#prodList_butt_plus,
 #prodList_butt_remove {
-    position: absolute;
-    right: 23.5%;
+    height: 24px;
 }
 
-/* Positioning all elements inside li UP*/
+.inputBuy {
+    width: 48px;
+}
 
-
-Input {
-    width: 75px;
+input {
+    width: 80px;
+    height: 24px;
 }
 
 label {
     display: inline-block;
-    width: 100px;
-    margin-bottom: 10px;
-}
-
-button {
-    margin-bottom: 10px;
-
+    width: 160px;
+    margin-bottom: 8px;
 }
 
 /* Adding hover effect to Shop List DOWN*/
-#shopList_li {
-    display: block;
-    width: 150px;
-    position: relative;
+.shopList_li {
+    width: 152px;
+    height: 19.2px;
     border-bottom: 1px dotted black;
+    position: relative;
 }
 
-#shopList_li .tooltiptext {
+.shopList_li .tooltiptext {
     visibility: hidden;
-    width: 250px;
+    width: 256px;
     background-color: black;
     color: #fff;
     text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
+    border-radius: 8px;
+    padding: 4.8px 0;
 
     /* Position the tooltiptext */
     position: absolute;
     z-index: 1;
-    top: -5px;
+    top: -4.8px;
     left: 105%;
 }
 
-#shopList_li:hover .tooltiptext {
+.shopList_li:hover .tooltiptext {
     visibility: visible;
 }
 
@@ -141,7 +179,7 @@ button {
     display: block;
     border-bottom: 2px solid black;
     width: 97%;
-    padding: 10px;
+    padding: 8px;
 }
 
 /* Adding a line above Total to pay */
@@ -149,5 +187,9 @@ button {
     display: block;
     border-top: 2px solid black;
     width: 97%;
-    padding: 10px;
+    padding: 8px;
+}
+
+li[type='red'] {
+    color: red;
 }
