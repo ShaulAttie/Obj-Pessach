@@ -52,30 +52,6 @@ shopList.ondblclick = function (e) {
     }
 }
 
-//Clear the Cart list before printing an update
-function clearCartList() {
-    let lis = document.querySelectorAll('#prodList_li');
-    for (i = 0; li = lis[i]; i++) {
-        li.parentNode.removeChild(li);
-    }
-}
-
-//Clear the Shop list before printing an update
-function clearShopList() {
-    let lis = document.querySelectorAll('.shopList_li');
-    for (i = 0; li = lis[i]; i++) {
-        li.parentNode.removeChild(li);
-    }
-}
-
-// Clear a specific Out of Stock Alert 
-function clearAlert() {
-    let h1s = document.querySelectorAll('#alertH1');
-    for (i = 0; h1 = h1s[i]; i++) {
-        h1.parentNode.removeChild(h1);
-    }
-}
-
 // Handle Clicks in Cart List
 prodList.onclick = function (e) {
     if (e.target && e.target.id.includes("prodList_butt_remove")) {
@@ -104,12 +80,42 @@ prodList.onclick = function (e) {
     }
 }
 
+//Clear the Cart list before printing an update
+function clearCartList() {
+    let lis = document.querySelectorAll('#prodList_li');
+    for (i = 0; li = lis[i]; i++) {
+        li.parentNode.removeChild(li);
+    }
+}
+
+//Clear the Shop list before printing an update
+function clearShopList() {
+    let lis = document.querySelectorAll('.shopList_li');
+    for (i = 0; li = lis[i]; i++) {
+        li.parentNode.removeChild(li);
+    }
+}
+
+// Clear a specific Out of Stock Alert 
+function clearAlert() {
+    let h1s = document.querySelectorAll('#alertH1');
+    for (i = 0; h1 = h1s[i]; i++) {
+        h1.parentNode.removeChild(h1);
+    }
+}
+
 // // Handle Add Form Submit ------ e.preventDefault() prevent the refresh page
 //Form 01 capture info from user to add a new product to Mlay
 addForm1.onsubmit = function (e) {
     e.preventDefault()
+    debugger
     let nameX = document.getElementById("name").value;
     let barcodeX = document.getElementById("barcode").value;
+    if (barcodeX.trim() == ''){
+        createAlertListDiv(`You forgot the barcode`)
+        setTimeout(clearAlert, 2000)
+        return
+    }
     let priceX = Number(document.getElementById("price").value);
     let qtyX = Number(document.getElementById("qty").value);
     if (priceX < 0 || qtyX < 0) {
@@ -120,7 +126,7 @@ addForm1.onsubmit = function (e) {
     createItem(nameX, barcodeX, priceX, qtyX)
 }
 
-//Capture info from user to add Product quantity to stock by barcode
+//Capture info from user to Add Product quantity to stock by barcode
 addForm2.onsubmit = function (e) {
     e.preventDefault()
     let barcode1X = document.getElementById("barcode1").value;
@@ -133,6 +139,7 @@ addForm2.onsubmit = function (e) {
     addStock(barcode1X, qty1X)
 }
 
+//Capture info from user to Remove Product quantity from stock by barcode
 addForm3.onsubmit = function (e) {
     e.preventDefault()
     let barcode2X = document.getElementById("barcode2").value;
@@ -145,9 +152,11 @@ addForm3.onsubmit = function (e) {
     removeStock(barcode2X, qty2X)
 }
 
+//Capture info from user to Change Product price by barcode
 addForm4.onsubmit = function (e) {
     e.preventDefault()
     let barcode3X = document.getElementById("barcode3").value;
+    mlay.find(v => v.barcode == barcode3X)
     let price3X = Number(document.getElementById("price3").value);
     if (price3X < 0) {
         createAlertListDiv(`The Price can not be Negative`)
@@ -242,6 +251,22 @@ function removeStock(barcode2X, qty2X) {
         }
     }
     (createAlertListDiv(`This Barcode doesn't exist in the system!!!`, barcode2X), setTimeout(clearAlert, 5000))
+}
+
+// Change a Product Price
+function changePrice(barcode, price) {
+    // mlay.find(v => v.barcode == barcode ? v.price = price : null)
+    // clearShopList()
+    // createShopListMlay(mlay)
+    for (i in mlay) {
+        if (mlay[i].barcode == barcode) {
+            mlay[i].price = price
+            clearShopList()
+            createShopListMlay(mlay)
+            return
+        }
+    }
+    (createAlertListDiv(`This Barcode doesn't exist in the system!!!`, barcode), setTimeout(clearAlert, 5000))
 }
 
 //showItems(mlay) ------------------------
@@ -344,10 +369,4 @@ function createAlertListDiv(text, barcode) {
     elemH1.className = (barcode)
     elemH1.innerHTML = text
     alertListDiv.appendChild(elemH1)
-}
-
-function changePrice(barcode, price) {
-    mlay.find(v => v.barcode == barcode ? v.price = price : null)
-    clearShopList()
-    createShopListMlay(mlay)
 }

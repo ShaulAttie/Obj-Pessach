@@ -10,92 +10,68 @@ html {
 }
 
 body {
-    margin: 0;
     display: grid;
     grid-template-columns: repeat(2, 50%);
-    justify-content: center;
-    height: 656px;
+    height: 100vh;
 }
 
 #shopping {
-    display: grid;
-    flex: 50%;
     border-right-style: double;
     border-right-color: black;
-    justify-content: center;
 }
 
-#cartSection {
-    flex: 50%;
+#shopSection {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
 }
 
 h1 {
     display: flex;
     justify-content: center;
+    grid-area: H1;
 }
 
 /* forms */
 #frm1 {
     display: grid;
-    grid-template-columns: 80px 80px 80px 80px;
+    grid-area: form1;
+    grid-template-columns: 60px 80px 60px 80px;
     grid-template-rows: repeat(3, 32px);
-    width: 560px;
+    width: 23vw;
     justify-content: center;
-    gap: 8px;
-    margin: 8px;
+    gap: 0.5vw;
+    margin: 5px;
+    border: 1px solid black;
+    padding: 5px;
 }
 
 #frm2,
 #frm3,
 #frm4 {
     display: grid;
-    grid-template-columns: 80px 80px 80px 80px;
+    grid-template-columns: 60px 80px 60px 80px;
     grid-template-rows: repeat(2, 32px);
-    width: 560px;
+    width: 23vw;
     justify-content: center;
-    gap: 8px;
-    margin: 8px;
+    gap: 0.5vw;
+    margin: 5px;
+    border: 1px solid black;
+    padding: 5px;
 }
-
-#updatePriceButt,
-#minusQtyButt,
-#addQtyButt,
-#addProd {
-    margin-left: 8px;
-}
-
-/* #frm4 {
-    display: grid;
-    grid-template-columns: 80px 80px 80px 80px 80px 80px;
-    grid-template-rows: repeat(2, 32px);
-    width: 560px;
-    justify-content: center;
-    gap: 8px;
-    margin: 8px;
-} */
 
 /* reset button from frm1/2/3/4 */
 input[type='reset'] {
-    width: 80px;
-    height: 24px;
-    margin-left: 88px;
+    /* width: 80px;
+    height: 24px; */
+    margin-left: 152px;
 }
-
-/* input[type='reset01'] {
-    width: 80px;
-    height: 24px;
-    margin-left: 11rem;
-} */
-
-/* #updatePriceButt {
-    margin-left: 96px;
-} */
 
 /* button from frm1/2/3/4 */
 .button {
     width: 160px;
     height: 24px;
-    margin-left: 88px;
+    /* margin-left: 88px; */
 }
 
 #shop-list {
@@ -171,7 +147,6 @@ label {
 .shopList_li:hover .tooltiptext {
     visibility: visible;
 }
-
 /* Adding hover effect to Shop List UP*/
 
 /* Adding a line under Cart Quantity */
@@ -190,6 +165,7 @@ label {
     padding: 8px;
 }
 
+/*Add the color Red to a Shop Product when the mlay = 0 */
 li[type='red'] {
     color: red;
 }

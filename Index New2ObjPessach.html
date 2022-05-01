@@ -23,14 +23,16 @@
     <!-- PRODUCT SECTION -->
     <div id="shopping">
         <div>
-            <h1>Stock Update</h1>
+            <h1 class="stockUpdate">Stock Update</h1>
         </div>
+
         <div id="shopSection">
             <form id="frm1">
-                <label for="name">Name:</label><Input id="name" name="NPName"  placeholder="Name..."></Input>
+                <label for="name">Name:</label><Input id="name" name="NPName" placeholder="Name..." maxlength="13"></Input>
                 <label for="barcode">Barcode:</label><Input id="barcode" name="NPBarcode" placeholder="Barcode..."
                     min="0"></Input>
-                <label for="price">Price:</label><Input id="price" name="NPPrice" placeholder="Price..." min="0"></Input>
+                <label for="price">Price:</label><Input id="price" name="NPPrice" placeholder="Price..."
+                    min="0"></Input>
                 <label for="qty">Quantity:</label><Input id="qty" name="NPQty" placeholder="Qty..." min="0"></Input>
                 <button id="addProd" onclick="" class="button">Add New Product</button>
                 <input type="reset" value="Reset">
@@ -53,13 +55,14 @@
             <form id="frm4">
                 <label for="barcode3">Barcode:</label><Input id="barcode3" placeholder="Barcode..." min="0"></Input>
                 <!-- <label for="barcode3">Old Price</label><span name="oldPrice">0</span> -->
-                <label for="price3">Price:</label><Input id="price3" name="NPPrice" placeholder="Price..." min="0"></Input>
+                <label for="price3">Price:</label><Input id="price3" name="NPPrice" placeholder="Price..."
+                    min="0"></Input>
                 <button id="updatePriceButt" onclick="" class="button">Update Price</button>
                 <input type="reset" value="Reset">
             </form>
 
             <div id="shop01">
-                <h1>Our Products</h1>
+                <h1 class="ourProduct">Our Products</h1>
                 <ul list style id="shop-list" class="show">
 
                 </ul>
